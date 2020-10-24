@@ -1,0 +1,39 @@
+            JS code we write
+                |
+                |
+              Node Js
+               |    |               
+               |    |
+              V8   Libuv
+
+V8: OpenSource Google: Purpose to execute JS code outside browser: 70% C++, 30%JS
+Libuv: C++ Opensource project: Access to filesystem, concurrency etc execute 100% C++
+
+What is the purpose of NodeJS:
+1) write code directly in JS
+2) Node gives a wrapper to standard library modules like fs, http, crypto written in C++: You require in JS functions to access these modules.
+
+////////////////////////////////////////////////
+How node leverages functionally living inside libuv? Look at word document imp
+
+Lets see at pbkdf2 function inside crypto library module. It returns hash
+Actual implementation of this function
+
+Go to node source code on github
+1) lib directory: JS defination of functions & modules
+2) src directory: C++ implementation of all functions.
+
+Lib Directory has crypto => pbkd2 function: This is JS file
+this file exports pkbdf2 function. This is from where you require function in
+Function declaration: does alot of input checking, error checking and calls another function with your input (C++ function) 
+This C++ function is required into your file with process.binding("crypto") This binding is how node joins JS to C++ side
+
+V8: Then V8 kicks in and converts JS datatypes to equivalent C++ types like array strings etc
+
+src folder: crypto file C++ exports C++ function defination of pbkdf2 and this is what is invoked by process.binding and converted to JS function
+This is where your actual function is processed.
+
+Where is libuv used??
+
+
+

@@ -1,0 +1,32 @@
+What is a thread?
+Thread is used by computer to execute a series of tasks
+
+////////////////////////////////
+Process:
+Whenever you run program ona computer. You start up a process.
+Process: Instance of a running program being executed
+
+///////////////////////////////////////
+Threads
+Within a signle process you can have multiple threads
+Threads are like little todo lists for cpu of computer
+
+///////////////////////////////////////
+Scheduling: OS Scheduler
+A concept tied to thread is scheduling. 
+Scheduling referes to operating system ability to decide which thread executes at any given time
+Computer has limited processing power so you want to make sure urgent thread gets process first.
+All threads are competing for computational power
+
+How to increase computer power to process multiple threads at same time?
+1) Increase CPU core so at one time you can balance thread loads by giving it to different cpu cores. One core can process multiple cores by process called multithreading
+2) The time in which a thread is sitting idle, it can execute other tasks.
+
+What do you mean by thread sitting idle?
+Imagine your one thread has a task of reading a file from hard drives. once finishes file reading count number of letters in it.
+In the time when your computer is reading file. your thread is sitting idle waiting for cpu to finsih reading file.
+This concept is called as input/output takes time I/O time.
+You OS scheduler has the ability to detect this downtime
+During that idle time you can give that thread other tasks to do
+
+How this applies to NodeJs??

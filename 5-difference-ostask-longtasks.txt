@@ -1,0 +1,28 @@
+Any pending OS system taks (ex: http req listening to port)
+
+If you do 5-6 http request to google
+All 5-6 task complete simultaneoulsy. Different then PBKD2 function
+
+If you make http request this very low level task libuv offloads to your OS system
+Your libuv or node doesnt knwo how to handle http request.
+Note: before when reading fs libuv threadpool was managing it. here libuv offloads to underlying OS(your computer)
+It completes the task as it sees fit or how many threads to delegate
+OS Async feature/helper listen for request. Libuv waits for OS to signal it about any request
+Your OS makes request
+
+Hence, your JS doesnot get blocked becuase your OS making request
+As a consequence some tasks get offlaoded to underlying os not your event loop
+some task offloaded to libuv threadpool.
+
+What functions inside node get offloaded to OS async feature?
+Almost everything around networking library gets offloaded to OS. Some other stuff is OS specific like linux windows.
+
+How does it fit into event loop;
+Pending OStask array. If anytask like listening to http request being handled by your OS running.
+Your event loop will not exit.
+
+Note: Libuv offloads tasks to OS not node directly.
+
+Grider Unexpected Event Loop Crazy Node behaviour inside advance nodejs concept is really good example
+// really good very important watch it.. !!!!!
+

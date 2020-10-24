@@ -1,0 +1,51 @@
+When you start a node program, node automatically creates 1 thread and executes all code
+inside that one single thread.
+
+////////////////////////////////////////////
+Event Loop
+Inside single thread you have one event loop
+Event loop is like control structure that decides what our one thread should do at any given time.
+
+////////////////////////////////////////////
+Emulating Event Loop:
+
+node myfile.js
+
+1) All contents of your file are executed. At this point event loop has not started
+2) event loop starts. Think of it as while loop. One entire executiong of block of code inside while loop is called tick in node world.
+
+// Internally node automatically detects these below tasks even when file executed before eventLoop starts
+// NewTimer, tasks operations recorded from myFile running 
+const pendingTimers = [];
+const pendingOStasks = [];
+const pendingOperations = [];
+
+function shouldContinue () {
+  // CheckOne: Any pending function callback to setTimeout, setInterval, setImmediate
+  // CheckTwo: Any pending OS system taks (ex: http req listening to port) 
+  // CheckThree: Pending long Running operation (ex: fs module, read, write [offloaded to threadPool])
+
+  return pendingTimer.length || pendingOSTasks.length || pendingOperations.length
+} 
+
+Entire body executes in 1 tick
+
+while (ShouldContinue()) {
+
+1) Node looks at pending timers and see if any function ready to be called. callback
+2) Node looks at pendingOstaskes and operations and calls relevant callbacks
+
+3) Node pauses execution temporarily and waits for new event to occur. continues when
+  - a new pending OStask is done
+  - a new pending operation is done.
+  - a timer is about to complete or expire
+
+4) Look at pending timers. call any setImmediate
+5) handle any close event like readStream close event
+  - readStream.on('close', ()=> {
+    cleanup code
+  })
+
+}
+
+exit back to terminal

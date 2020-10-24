@@ -1,0 +1,25 @@
+Node eventloop is single threaded
+
+However node is multi-threaded. Some of the functions included in node library
+like crypto module are not single threaded they run outside event loop. They are multi-threaded.
+
+Example PBKD2 crypto function: 
+- run this function twice in sucession. You will notice they both take same amount of time to complete
+- Hence these both task handled simultaneously
+
+Enters Libuv Thread pool: and this is where node uses Libuv
+Libuv gives acess to underlying operating system
+For SOME!!! node functions in standard library, the node C++ side and libuv decide to do
+some expensive calculation outside the event loop entirely. they use thread pool.
+By defualt 4 threads. You can change it.
+- if you invoke 5 PBKD2 function thne 4 complete together. 5th one takes extra time
+- your 4 defualt threads process 4 simultaneoulsy, 1 processed later
+
+What gets offloaded to threadPool or what functions use threadPool?
+Depends on OS you are on like windows linux. However fs gets offloaded regardless
+
+How does threadpool fits into eventLoop?
+Rememeber the thirdArray. The pendong operation array like reading from fs module.
+If any task pending inside threadpool your eventLoop will not exit.
+EventLoop will call the callback to any pendingoperation once they have finished. 
+
